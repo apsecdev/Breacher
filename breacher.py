@@ -10,7 +10,7 @@ parser.add_argument("--path", help="custom path prefix", dest='prefix')
 parser.add_argument("--type", help="set the type i.e. html, asp, php", dest='type')
 parser.add_argument("--fast", help="uses multithreading", dest='fast', action="store_true")
 args = parser.parse_args() #arguments to be parsed
-
+output = open("found.txt", "w")
 target = args.target #Gets tarfet from argument
 
 #Fancy banner :p
@@ -52,7 +52,10 @@ def scan(links):
 		r = requests.get(link) #Requests to the combined url
 		http = r.status_code #Fetches the http response code
 		if http == 200: #if its 200 the url points to valid resource i.e. admin panel
-			print ('  \033[1;32m[+]\033[0m Admin panel found: %s'% link)
+		#   print ('  \033[1;32m[+]\033[0m Admin panel found: %s'% link)
+            success = '  \033[1;32m[+]\033[0m Admin panel found: %s'% link
+            print (success)
+            output.write(success + '\n')
 		elif http == 404: #404 means not found
 			print ('  \033[1;31m[-]\033[1;m %s'% link)
 		elif http == 302: #302 means redirection
